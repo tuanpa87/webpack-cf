@@ -13,25 +13,27 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"]
+      },
+      {
+        test: /\.pug$/,
+        include: path.join(__dirname, 'src'),
+        use: ["html-loader", "pug-html-loader"]
       }
     ]
   },
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
     compress: true,
-    stats: "errors-only",
     open: true,
     port: 9000,
     //host: //add your ip here to test on other devices
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Project Demo",
       // minify: {
       //     collapseWhitespace: true
       // },
       hash: true,
-      template: "./src/index.html" // Load a custom template (ejs by default see the FAQ for details)
+      template: "./src/index.pug" // Load a custom template (ejs by default see the FAQ for details)
     }),
 
     new MiniCssExtractPlugin({ filename: "main.css" })
