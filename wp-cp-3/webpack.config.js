@@ -17,7 +17,7 @@ module.exports = {
       {
         test: /\.pug$/,
         include: path.join(__dirname, 'src'),
-        use: ["html-loader", "pug-html-loader"]
+        use: ["pug-loader"]
       }
     ]
   },
