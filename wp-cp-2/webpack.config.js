@@ -1,13 +1,14 @@
 const path = require("path");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var {CleanWebpackPlugin} = require('clean-webpack-plugin');
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: "./src/js/app.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "bundle.js"
     //publicPath: "/dist"
   },
   module: {
@@ -48,15 +49,19 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: "[name].[ext]",
+              name: "[name].[ext]"
             }
           }
         ],
-        exclude: path.resolve(__dirname, "src/index.html"),
+        exclude: path.resolve(__dirname, "src/index.html")
       }
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    }),
     new MiniCssExtractPlugin({ filename: "main.css" }),
     new HtmlWebpackPlugin({
       template: "src/index.html"
