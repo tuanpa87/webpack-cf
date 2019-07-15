@@ -1,6 +1,18 @@
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var path = require("path");
+const glob = require("glob");
+
+const generateHTMLPlugins = () =>
+  glob
+    .sync("./src/*.pug")
+    .map(
+      dir =>
+        new HtmlWebpackPlugin({
+          template: dir,
+          filename: path.basename(dir).replace(/\.[^/.]+$/, "") + ".html"
+        })
+    );
 
 module.exports = {
   entry: "./src/app.js",
@@ -16,7 +28,7 @@ module.exports = {
       },
       {
         test: /\.pug$/,
-        include: path.join(__dirname, 'src'),
+        include: path.join(__dirname, "src"),
         use: ["pug-loader"]
       }
     ]
@@ -24,18 +36,11 @@ module.exports = {
   devServer: {
     compress: true,
     open: true,
-    port: 9000,
+    port: 9000
     //host: //add your ip here to test on other devices
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      // minify: {
-      //     collapseWhitespace: true
-      // },
-      hash: true,
-      template: "./src/index.pug" // Load a custom template (ejs by default see the FAQ for details)
-    }),
-
-    new MiniCssExtractPlugin({ filename: "main.css" })
+    new MiniCssExtractPlugin({ filename: "main.css" }),
+    ...generateHTMLPlugins()
   ]
 };
